@@ -1,0 +1,14 @@
+type Query {
+  products: [Product!]!
+}
+
+type Product @key(fields: "id") {
+  id: ID! @external
+
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+}
