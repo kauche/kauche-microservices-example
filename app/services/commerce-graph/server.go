@@ -12,7 +12,7 @@ import (
 	"github.com/kauche/kauche-microservices-example/app/services/commerce-graph/graph/generated"
 )
 
-const defaultPort = "8080"
+const defaultPort = "9000"
 
 func main() {
 	port := os.Getenv("PORT")
