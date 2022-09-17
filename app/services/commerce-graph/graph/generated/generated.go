@@ -198,13 +198,13 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema.graphqls", Input: `type Product @key(fields: "id") {
-  id: ID!
-  name: String!
+	{Name: "../schema.graphqls", Input: `type Query {
+  products: [Product!]!
 }
 
-type Query {
-  products: [Product!]!
+type Product @key(fields: "id") {
+  id: ID!
+  name: String!
 }
 `, BuiltIn: false},
 	{Name: "../../federation/directives.graphql", Input: `
