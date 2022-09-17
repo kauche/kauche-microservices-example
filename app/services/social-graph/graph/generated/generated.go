@@ -223,6 +223,7 @@ var sources = []*ast.Source{
 
 type Product @key(fields: "id") {
   id: ID! @external
+
   comments: [Comment!]!
 }
 
