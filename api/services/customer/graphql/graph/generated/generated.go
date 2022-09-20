@@ -14,7 +14,7 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
 	"github.com/99designs/gqlgen/plugin/federation/fedruntime"
-	"github.com/kauche/kauche-microservices-example/app/services/commerce-graph/graph/model"
+	"github.com/kauche/kauche-microservices-example/api/services/customer/graphql/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -198,7 +198,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema.graphqls", Input: `type Query {
+	{Name: "../../schema.graphql", Input: `type Query {
   products: [Product!]!
 }
 
@@ -360,7 +360,7 @@ func (ec *executionContext) _Entity_findProductByID(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Product)
 	fc.Result = res
-	return ec.marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProduct(ctx, field.Selections, res)
+	return ec.marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProduct(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Entity_findProductByID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -509,7 +509,7 @@ func (ec *executionContext) _Query_products(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*model.Product)
 	fc.Result = res
-	return ec.marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProductᚄ(ctx, field.Selections, res)
+	return ec.marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProductᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_products(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3173,11 +3173,11 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalNProduct2githubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProduct(ctx context.Context, sel ast.SelectionSet, v model.Product) graphql.Marshaler {
+func (ec *executionContext) marshalNProduct2githubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProduct(ctx context.Context, sel ast.SelectionSet, v model.Product) graphql.Marshaler {
 	return ec._Product(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProductᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Product) graphql.Marshaler {
+func (ec *executionContext) marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProductᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Product) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3201,7 +3201,7 @@ func (ec *executionContext) marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkauche
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProduct(ctx, sel, v[i])
+			ret[i] = ec.marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProduct(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3221,7 +3221,7 @@ func (ec *executionContext) marshalNProduct2ᚕᚖgithubᚗcomᚋkaucheᚋkauche
 	return ret
 }
 
-func (ec *executionContext) marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋappᚋservicesᚋcommerceᚑgraphᚋgraphᚋmodelᚐProduct(ctx context.Context, sel ast.SelectionSet, v *model.Product) graphql.Marshaler {
+func (ec *executionContext) marshalNProduct2ᚖgithubᚗcomᚋkaucheᚋkaucheᚑmicroservicesᚑexampleᚋapiᚋservicesᚋcustomerᚋgraphqlᚋgraphᚋmodelᚐProduct(ctx context.Context, sel ast.SelectionSet, v *model.Product) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")

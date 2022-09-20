@@ -8,8 +8,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 
-	"github.com/kauche/kauche-microservices-example/app/services/commerce-graph/graph"
-	"github.com/kauche/kauche-microservices-example/app/services/commerce-graph/graph/generated"
+	"github.com/kauche/kauche-microservices-example/api/services/customer/graphql/graph/generated"
 )
 
 const defaultPort = "9000"
@@ -20,7 +19,12 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	resolver := &Resolver{
+		QueryResolver:  &queryResolver{},
+		EntityResolver: &entityResolver{},
+	}
+
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
