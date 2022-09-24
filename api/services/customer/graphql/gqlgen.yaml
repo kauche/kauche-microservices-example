@@ -4,24 +4,24 @@ schema:
 
 # Where should the generated server code go?
 exec:
-  filename: graph/generated/generated.go
-  package: generated
+  filename: ./gqlgen/gqlgen.go
+  package: gqlgen
 
 federation:
-  filename: graph/generated/federation.go
-  package: generated
+  filename: ./gqlgen/federation.go
+  package: gqlgen
   version: 2
 
 # Where should any generated models go?
 model:
-  filename: graph/model/models_gen.go
+  filename: ./gqlgen/model/model.go
   package: model
 
 # Where should the resolver implementations go?
 resolver:
-  layout: follow-schema
-  dir: graph
-  package: graph
+  layout: single-file
+  filename: ./gqlgen/resolver.go
+  package: gqlgen
 
 # Optional: turn on use ` + "`" + `gqlgen:"fieldName"` + "`" + ` tags in your models
 # struct_tag: json
