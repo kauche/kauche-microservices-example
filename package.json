@@ -1,0 +1,8 @@
+{
+  "name": "kauche-microservices-example",
+  "devDependencies": {
+      "apollo": "2.33.4",
+      "apollo-codegen-core": "0.40.3",
+      "apollo-language-server": "1.26.3"
+  }
+}
