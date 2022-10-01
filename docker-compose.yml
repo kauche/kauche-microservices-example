@@ -3,7 +3,7 @@ version: "3.8"
 
 services:
   customer-graph:
-    image: ghcr.io/apollographql/router:v1.0.0
+    image: ghcr.io/apollographql/router:v1.1.0
     ports:
       - ${PORT-8080}:8080
     volumes:
