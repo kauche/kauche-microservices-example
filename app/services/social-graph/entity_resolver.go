@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/kauche/kauche-microservices-example/lib/go/api/services/commerce/graphql"
+	"github.com/kauche/kauche-microservices-example/lib/go/api/services/social/graphql"
 )
 
 type entityResolver struct{}

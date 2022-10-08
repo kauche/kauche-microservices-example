@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 
-	"github.com/kauche/kauche-microservices-example/api/services/customer/graphql/gqlgen/model"
+	"github.com/kauche/kauche-microservices-example/lib/go/api/services/commerce/graphql"
 )
 
 type queryResolver struct{}
 
-func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) {
-	return []*model.Product{
+func (r *queryResolver) Products(ctx context.Context) ([]*graphql.Product, error) {
+	return []*graphql.Product{
 		{
 			ID:   "1",
 			Name: "Product 1",

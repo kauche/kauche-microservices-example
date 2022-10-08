@@ -7,9 +7,9 @@ services:
     ports:
       - ${PORT-8080}:8080
     volumes:
-      - ./app/platform/customer-graph:/go/src/github.com/kauche/kauche-microservices-example/app/platform/customer-graph:cached
-    working_dir: /go/src/github.com/kauche/kauche-microservices-example/app/platform/customer-graph
-    command: --config router.yaml --supergraph schema.graphql
+      - .:/go/src/github.com/kauche/kauche-microservices-example:cached
+    working_dir: /go/src/github.com/kauche/kauche-microservices-example
+    command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls
 
   commerce-graph:
     image: golang:1.19.1-bullseye

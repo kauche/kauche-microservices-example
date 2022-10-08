@@ -1,0 +1,13 @@
+federation_version: 2
+
+subgraphs:
+
+  commerce:
+    routing_url: http://commerce-graph:9000/query
+    schema:
+      file: ../../../services/commerce/graphql/schema.graphqls
+
+  social:
+    routing_url: http://social-graph:9001/query
+    schema:
+      file: ../../../services/social/graphql/schema.graphqls
