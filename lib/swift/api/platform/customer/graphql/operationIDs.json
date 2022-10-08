@@ -1,0 +1,6 @@
+{
+  "63f1f4a39f733190389ccbd37ee7026113a286272c764158b3c6d6afc0399005": {
+    "name": "ProductList",
+    "source": "query ProductList {\n  products {\n    __typename\n    id\n    name\n    comments {\n      __typename\n      id\n      text\n    }\n  }\n}"
+  }
+}
