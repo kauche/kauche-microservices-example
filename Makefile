@@ -41,3 +41,10 @@ lib-swift-customer-graphql:
 		--localSchemaFile=./api/platform/customer/graphql/schema.graphqls \
 		--operationIdsPath=./lib/swift/api/platform/customer/graphql/operationIDs.json \
 		--mergeInFieldsFromFragmentSpreads ./lib/swift/api/platform/customer/graphql/API.swift
+
+.PHONY: lib-kotlin-graphql
+lib-kotlin-graphql:
+	@rm -rf ./lib/kotlin/com
+	@mkdir -p ./lib/kotlin/com/kauche/api/platform
+	@./gradlew :api:generateApolloSources
+	@mv ./api/build/generated/source/apollo/customer-graphql/com/kauche/api/platform/customer ./lib/kotlin/com/kauche/api/platform/customer
