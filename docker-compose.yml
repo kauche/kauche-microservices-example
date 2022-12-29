@@ -3,7 +3,7 @@ version: "3.8"
 
 services:
   customer-graph:
-    image: ghcr.io/apollographql/router:v1.2.0
+    image: ghcr.io/apollographql/router:v1.7.0
     ports:
       - ${PORT-8080}:8080
     volumes:
@@ -12,7 +12,7 @@ services:
     command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls
 
   commerce-graph:
-    image: golang:1.19.2-bullseye
+    image: golang:1.19.4-bullseye
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -20,7 +20,7 @@ services:
     command: go run ./app/services/commerce-graph
 
   social-graph:
-    image: golang:1.19.2-bullseye
+    image: golang:1.19.4-bullseye
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
