@@ -7,18 +7,25 @@ import (
 )
 
 func NewResolver(
+	comment CommentResolver,
 	entity EntityResolver,
 	query QueryResolver,
 ) *Resolver {
 	return &Resolver{
-		entityResolver: &entityResolver{resolver: entity},
-		queryResolver:  &queryResolver{resolver: query},
+		commentResolver: &commentResolver{resolver: comment},
+		entityResolver:  &entityResolver{resolver: entity},
+		queryResolver:   &queryResolver{resolver: query},
 	}
 }
 
 type Resolver struct {
-	entityResolver EntityResolver
-	queryResolver  QueryResolver
+	commentResolver CommentResolver
+	entityResolver  EntityResolver
+	queryResolver   QueryResolver
+}
+
+func (r *commentResolver) User(ctx context.Context, obj *Comment) (*User, error) {
+	return r.resolver.User(ctx, obj)
 }
 
 func (r *entityResolver) FindProductByID(ctx context.Context, id string) (*Product, error) {
@@ -29,11 +36,15 @@ func (r *queryResolver) Products(ctx context.Context) ([]*Product, error) {
 	return r.resolver.Products(ctx)
 }
 
+// Comment returns CommentResolver implementation.
+func (r *Resolver) Comment() CommentResolver { return r.commentResolver }
+
 // Entity returns EntityResolver implementation.
 func (r *Resolver) Entity() EntityResolver { return r.entityResolver }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return r.queryResolver }
 
+type commentResolver struct{ resolver CommentResolver }
 type entityResolver struct{ resolver EntityResolver }
 type queryResolver struct{ resolver QueryResolver }

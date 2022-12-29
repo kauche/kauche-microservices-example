@@ -13,9 +13,21 @@ import com.kauche.api.platform.customer.graphql.type.Comment
 import com.kauche.api.platform.customer.graphql.type.GraphQLID
 import com.kauche.api.platform.customer.graphql.type.GraphQLString
 import com.kauche.api.platform.customer.graphql.type.Product
+import com.kauche.api.platform.customer.graphql.type.User
 import kotlin.collections.List
 
 public object ProductListQuerySelections {
+  private val __user: List<CompiledSelection> = listOf(
+        CompiledField.Builder(
+          name = "id",
+          type = GraphQLID.type.notNull()
+        ).build(),
+        CompiledField.Builder(
+          name = "name",
+          type = GraphQLString.type.notNull()
+        ).build()
+      )
+
   private val __comments: List<CompiledSelection> = listOf(
         CompiledField.Builder(
           name = "id",
@@ -24,7 +36,12 @@ public object ProductListQuerySelections {
         CompiledField.Builder(
           name = "text",
           type = GraphQLString.type.notNull()
-        ).build()
+        ).build(),
+        CompiledField.Builder(
+          name = "user",
+          type = User.type.notNull()
+        ).selections(__user)
+        .build()
       )
 
   private val __products: List<CompiledSelection> = listOf(

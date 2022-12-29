@@ -1,6 +1,6 @@
 {
-  "63f1f4a39f733190389ccbd37ee7026113a286272c764158b3c6d6afc0399005": {
+  "6ce40cf90da5a2897a415683efdf04881e3869b9ac79d12331c3896ac089311c": {
     "name": "ProductList",
-    "source": "query ProductList {\n  products {\n    __typename\n    id\n    name\n    comments {\n      __typename\n      id\n      text\n    }\n  }\n}"
+    "source": "query ProductList {\n  products {\n    __typename\n    id\n    name\n    comments {\n      __typename\n      id\n      text\n      user {\n        __typename\n        id\n        name\n      }\n    }\n  }\n}"
   }
 }

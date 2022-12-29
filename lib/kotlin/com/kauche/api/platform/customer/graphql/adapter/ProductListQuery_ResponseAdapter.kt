@@ -89,24 +89,27 @@ public object ProductListQuery_ResponseAdapter {
   }
 
   public object Comment : Adapter<ProductListQuery.Comment> {
-    public val RESPONSE_NAMES: List<String> = listOf("id", "text")
+    public val RESPONSE_NAMES: List<String> = listOf("id", "text", "user")
 
     public override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters):
         ProductListQuery.Comment {
       var _id: String? = null
       var _text: String? = null
+      var _user: ProductListQuery.User? = null
 
       while(true) {
         when (reader.selectName(RESPONSE_NAMES)) {
           0 -> _id = StringAdapter.fromJson(reader, customScalarAdapters)
           1 -> _text = StringAdapter.fromJson(reader, customScalarAdapters)
+          2 -> _user = User.obj().fromJson(reader, customScalarAdapters)
           else -> break
         }
       }
 
       return ProductListQuery.Comment(
         id = _id!!,
-        text = _text!!
+        text = _text!!,
+        user = _user!!
       )
     }
 
@@ -120,6 +123,44 @@ public object ProductListQuery_ResponseAdapter {
 
       writer.name("text")
       StringAdapter.toJson(writer, customScalarAdapters, value.text)
+
+      writer.name("user")
+      User.obj().toJson(writer, customScalarAdapters, value.user)
+    }
+  }
+
+  public object User : Adapter<ProductListQuery.User> {
+    public val RESPONSE_NAMES: List<String> = listOf("id", "name")
+
+    public override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters):
+        ProductListQuery.User {
+      var _id: String? = null
+      var _name: String? = null
+
+      while(true) {
+        when (reader.selectName(RESPONSE_NAMES)) {
+          0 -> _id = StringAdapter.fromJson(reader, customScalarAdapters)
+          1 -> _name = StringAdapter.fromJson(reader, customScalarAdapters)
+          else -> break
+        }
+      }
+
+      return ProductListQuery.User(
+        id = _id!!,
+        name = _name!!
+      )
+    }
+
+    public override fun toJson(
+      writer: JsonWriter,
+      customScalarAdapters: CustomScalarAdapters,
+      `value`: ProductListQuery.User,
+    ): Unit {
+      writer.name("id")
+      StringAdapter.toJson(writer, customScalarAdapters, value.id)
+
+      writer.name("name")
+      StringAdapter.toJson(writer, customScalarAdapters, value.name)
     }
   }
 }

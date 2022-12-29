@@ -21,6 +21,7 @@ type Comment
 {
   id: ID!
   text: String!
+  user: User!
 }
 
 scalar join__FieldSet
@@ -58,4 +59,11 @@ type Query
   @join__type(graph: SOCIAL)
 {
   products: [Product!]!
+}
+
+type User
+  @join__type(graph: SOCIAL)
+{
+  id: ID!
+  name: String!
 }

@@ -35,7 +35,7 @@
 
 {{ range $resolver := .Resolvers -}}
 	func (r *{{lcFirst $resolver.Object.Name}}{{ucFirst $.ResolverType}}) {{$resolver.Field.GoFieldName}}{{ $resolver.Field.ShortResolverDeclaration }} {
-                return r.resolver.{{$resolver.Field.GoFieldName}}(ctx, {{ range $arg := $resolver.Field.Args -}} {{$arg.VarName}} {{ end }})
+                return r.resolver.{{$resolver.Field.GoFieldName}}(ctx {{ if not $resolver.Field.Object.Root }}, obj {{ end }} {{ range $arg := $resolver.Field.Args -}} , {{$arg.VarName}} {{ end }})
 	}
 
 {{ end }}
