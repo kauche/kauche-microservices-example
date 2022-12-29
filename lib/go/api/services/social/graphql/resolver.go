@@ -24,8 +24,8 @@ type Resolver struct {
 	queryResolver   QueryResolver
 }
 
-func (r *commentResolver) User(ctx context.Context, obj *Comment) (*User, error) {
-	return r.resolver.User(ctx, obj)
+func (r *commentResolver) Customer(ctx context.Context, obj *Comment) (*Customer, error) {
+	return r.resolver.Customer(ctx, obj)
 }
 
 func (r *entityResolver) FindProductByID(ctx context.Context, id string) (*Product, error) {

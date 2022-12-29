@@ -26,10 +26,10 @@ type Product @key(fields: "id") {
 type Comment {
   id: ID!
   text: String!
-  user: User! @goField(forceResolver: true)
+  customer: Customer! @goField(forceResolver: true)
 }
 
-type User {
+type Customer {
   id: ID!
   name: String!
 }

@@ -1,1 +1,1 @@
-query ProductList {products{id name comments{id text user{id name}}}}
+query ProductList {products{id name comments{id text customer{id name}}}}

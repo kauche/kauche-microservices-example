@@ -7,8 +7,8 @@ package com.kauche.api.platform.customer.graphql.type
 
 import com.apollographql.apollo3.api.ObjectType
 
-public class User {
+public class Customer {
   public companion object {
-    public val type: ObjectType = ObjectType.Builder(name = "User").build()
+    public val type: ObjectType = ObjectType.Builder(name = "Customer").build()
   }
 }

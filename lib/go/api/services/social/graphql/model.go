@@ -3,9 +3,14 @@
 package graphql
 
 type Comment struct {
+	ID       string    `json:"id"`
+	Text     string    `json:"text"`
+	Customer *Customer `json:"customer"`
+}
+
+type Customer struct {
 	ID   string `json:"id"`
-	Text string `json:"text"`
-	User *User  `json:"user"`
+	Name string `json:"name"`
 }
 
 type Product struct {
@@ -14,8 +19,3 @@ type Product struct {
 }
 
 func (Product) IsEntity() {}
-
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}

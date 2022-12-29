@@ -10,14 +10,14 @@ import com.apollographql.apollo3.api.CompiledSelection
 import com.apollographql.apollo3.api.list
 import com.apollographql.apollo3.api.notNull
 import com.kauche.api.platform.customer.graphql.type.Comment
+import com.kauche.api.platform.customer.graphql.type.Customer
 import com.kauche.api.platform.customer.graphql.type.GraphQLID
 import com.kauche.api.platform.customer.graphql.type.GraphQLString
 import com.kauche.api.platform.customer.graphql.type.Product
-import com.kauche.api.platform.customer.graphql.type.User
 import kotlin.collections.List
 
 public object ProductListQuerySelections {
-  private val __user: List<CompiledSelection> = listOf(
+  private val __customer: List<CompiledSelection> = listOf(
         CompiledField.Builder(
           name = "id",
           type = GraphQLID.type.notNull()
@@ -38,9 +38,9 @@ public object ProductListQuerySelections {
           type = GraphQLString.type.notNull()
         ).build(),
         CompiledField.Builder(
-          name = "user",
-          type = User.type.notNull()
-        ).selections(__user)
+          name = "customer",
+          type = Customer.type.notNull()
+        ).selections(__customer)
         .build()
       )
 

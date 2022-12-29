@@ -60,17 +60,17 @@ public class ProductListQuery() : Query<ProductListQuery.Data> {
   public data class Comment(
     public val id: String,
     public val text: String,
-    public val user: User,
+    public val customer: Customer,
   )
 
-  public data class User(
+  public data class Customer(
     public val id: String,
     public val name: String,
   )
 
   public companion object {
     public const val OPERATION_ID: String =
-        "55bc8ee4a29b87cabd4f625854049f015f903d3a39ec870ff0b78c83a7add71e"
+        "7a9705bd2db1afc6ffa7f692ce27e4f4a87ed213b563cda6963d0b3e777d2866"
 
     /**
      * The minimized GraphQL document being sent to the server to save a few bytes.
@@ -83,7 +83,7 @@ public class ProductListQuery() : Query<ProductListQuery.Data> {
      *     comments {
      *       id
      *       text
-     *       user {
+     *       customer {
      *         id
      *         name
      *       }
@@ -92,7 +92,7 @@ public class ProductListQuery() : Query<ProductListQuery.Data> {
      * }
      */
     public val OPERATION_DOCUMENT: String
-      get() = "query ProductList { products { id name comments { id text user { id name } } } }"
+      get() = "query ProductList { products { id name comments { id text customer { id name } } } }"
 
     public const val OPERATION_NAME: String = "ProductList"
   }

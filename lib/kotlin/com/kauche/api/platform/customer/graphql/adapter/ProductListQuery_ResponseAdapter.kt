@@ -89,19 +89,19 @@ public object ProductListQuery_ResponseAdapter {
   }
 
   public object Comment : Adapter<ProductListQuery.Comment> {
-    public val RESPONSE_NAMES: List<String> = listOf("id", "text", "user")
+    public val RESPONSE_NAMES: List<String> = listOf("id", "text", "customer")
 
     public override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters):
         ProductListQuery.Comment {
       var _id: String? = null
       var _text: String? = null
-      var _user: ProductListQuery.User? = null
+      var _customer: ProductListQuery.Customer? = null
 
       while(true) {
         when (reader.selectName(RESPONSE_NAMES)) {
           0 -> _id = StringAdapter.fromJson(reader, customScalarAdapters)
           1 -> _text = StringAdapter.fromJson(reader, customScalarAdapters)
-          2 -> _user = User.obj().fromJson(reader, customScalarAdapters)
+          2 -> _customer = Customer.obj().fromJson(reader, customScalarAdapters)
           else -> break
         }
       }
@@ -109,7 +109,7 @@ public object ProductListQuery_ResponseAdapter {
       return ProductListQuery.Comment(
         id = _id!!,
         text = _text!!,
-        user = _user!!
+        customer = _customer!!
       )
     }
 
@@ -124,16 +124,16 @@ public object ProductListQuery_ResponseAdapter {
       writer.name("text")
       StringAdapter.toJson(writer, customScalarAdapters, value.text)
 
-      writer.name("user")
-      User.obj().toJson(writer, customScalarAdapters, value.user)
+      writer.name("customer")
+      Customer.obj().toJson(writer, customScalarAdapters, value.customer)
     }
   }
 
-  public object User : Adapter<ProductListQuery.User> {
+  public object Customer : Adapter<ProductListQuery.Customer> {
     public val RESPONSE_NAMES: List<String> = listOf("id", "name")
 
     public override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters):
-        ProductListQuery.User {
+        ProductListQuery.Customer {
       var _id: String? = null
       var _name: String? = null
 
@@ -145,7 +145,7 @@ public object ProductListQuery_ResponseAdapter {
         }
       }
 
-      return ProductListQuery.User(
+      return ProductListQuery.Customer(
         id = _id!!,
         name = _name!!
       )
@@ -154,7 +154,7 @@ public object ProductListQuery_ResponseAdapter {
     public override fun toJson(
       writer: JsonWriter,
       customScalarAdapters: CustomScalarAdapters,
-      `value`: ProductListQuery.User,
+      `value`: ProductListQuery.Customer,
     ): Unit {
       writer.name("id")
       StringAdapter.toJson(writer, customScalarAdapters, value.id)
