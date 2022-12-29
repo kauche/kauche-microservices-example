@@ -7,6 +7,9 @@ ROVER_VERSION := 0.8.2
 GQLGEN := $(abspath $(BIN_DIR)/gqlgen)
 ROVER := $(abspath $(BIN_DIR)/rover)
 
+.PHONY: gen-code
+gen-code: customer-graphql-schema lib-go-commerce-graphql lib-go-social-graphql lib-swift-customer-graphql lib-kotlin-graphql
+
 .PHONY: gqlgen
 gqlgen:
 	@cd ./tools && go build -o $(GQLGEN) github.com/99designs/gqlgen
