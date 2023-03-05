@@ -2,7 +2,7 @@ OS := $(shell uname | awk '{print tolower($$0)}')
 
 BIN_DIR := ./bin
 
-ROVER_VERSION := 0.10.0
+ROVER_VERSION := 0.12.2
 
 GQLGEN := $(abspath $(BIN_DIR)/gqlgen)
 ROVER := $(abspath $(BIN_DIR)/rover)
