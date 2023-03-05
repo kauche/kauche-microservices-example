@@ -12,7 +12,7 @@ services:
     command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls --anonymous-telemetry-disabled
 
   commerce-graph:
-    image: golang:1.19.4-bullseye
+    image: golang:1.20.1-bullseye
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -20,7 +20,7 @@ services:
     command: go run ./app/services/commerce-graph
 
   social-graph:
-    image: golang:1.19.4-bullseye
+    image: golang:1.20.1-bullseye
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
