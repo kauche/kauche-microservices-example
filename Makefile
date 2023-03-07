@@ -14,6 +14,10 @@ gen-code: customer-graphql-schema lib-go-commerce-graphql lib-go-social-graphql 
 gqlgen:
 	@cd ./tools && go build -o $(GQLGEN) github.com/99designs/gqlgen
 
+.PHONY: kauche-gqlgen
+kauche-gqlgen:
+	@CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -extldflags -static" -o ./bin/kauche-gqlgen ./cmd/platform/kauche-gqlgen
+
 .PHONY: rover
 rover:
 	@curl -sSL "https://github.com/apollographql/rover/releases/download/v$(ROVER_VERSION)/rover-v$(ROVER_VERSION)-$(shell uname -m)-unknown-$(OS)-gnu.tar.gz" | tar -C $(BIN_DIR) -xzv dist/rover
