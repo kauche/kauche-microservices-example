@@ -29,6 +29,10 @@ func (r *queryResolver) Products(ctx context.Context) ([]*Product, error) {
 	return r.resolver.Products(ctx)
 }
 
+func (r *queryResolver) Product(ctx context.Context, id string) (*Product, error) {
+	return r.resolver.Product(ctx, id)
+}
+
 // Entity returns EntityResolver implementation.
 func (r *Resolver) Entity() EntityResolver { return r.entityResolver }
 

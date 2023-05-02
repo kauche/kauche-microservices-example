@@ -5,7 +5,7 @@ services:
   customer-graph:
     image: ghcr.io/apollographql/router:v1.11.0
     ports:
-      - ${PORT-8080}:8080
+      - ${CUSTOMER_GRAPH_PORT-8000}:8080
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
     working_dir: /go/src/github.com/kauche/kauche-microservices-example
@@ -13,6 +13,8 @@ services:
 
   commerce-graph:
     image: golang:1.20.1-bullseye
+    ports:
+      - ${COMMERCE_GRAPH_PORT-8001}:9000
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -21,6 +23,8 @@ services:
 
   social-graph:
     image: golang:1.20.1-bullseye
+    ports:
+      - ${SOCIAL_GRAPH_PORT-8002}:9001
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached

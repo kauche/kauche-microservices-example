@@ -38,3 +38,26 @@ func (r *queryResolver) Products(ctx context.Context) ([]*graphql.Product, error
 		},
 	}, nil
 }
+
+func (r *queryResolver) Product(ctx context.Context, id string) (*graphql.Product, error) {
+	return &graphql.Product{
+		ID: id,
+		Comments: []*graphql.Comment{
+			{
+				ID:   "1",
+				Text: "Comment 1",
+			},
+			{
+				ID:   "2",
+				Text: "Comment 2",
+			},
+		},
+	}, nil
+}
+
+func (r *queryResolver) Customer(ctx context.Context, id string) (*graphql.Customer, error) {
+	return &graphql.Customer{
+		ID:   id,
+		Name: "John",
+	}, nil
+}

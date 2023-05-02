@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/kauche/kauche-microservices-example/lib/go/api/services/commerce/graphql"
 )
@@ -18,5 +19,12 @@ func (r *queryResolver) Products(ctx context.Context) ([]*graphql.Product, error
 			ID:   "2",
 			Name: "Product 2",
 		},
+	}, nil
+}
+
+func (r *queryResolver) Product(ctx context.Context, id string) (*graphql.Product, error) {
+	return &graphql.Product{
+		ID:   id,
+		Name: fmt.Sprintf("Product %s", id),
 	}, nil
 }

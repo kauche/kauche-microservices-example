@@ -69,4 +69,6 @@ type Query
   @join__type(graph: SOCIAL)
 {
   products: [Product!]!
+  product(id: ID!): Product
+  customer(id: ID!): Customer @join__field(graph: SOCIAL)
 }
