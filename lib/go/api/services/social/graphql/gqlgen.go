@@ -299,7 +299,7 @@ type Query {
 type Product @key(fields: "id") {
   id: ID! @external
 
-  comments: [Comment!]! # @goField(forceResolver: true)
+  comments: [Comment!]!
 }
 
 type Comment {
