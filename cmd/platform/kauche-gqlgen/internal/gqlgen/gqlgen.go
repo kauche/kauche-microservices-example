@@ -8,8 +8,9 @@ import (
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
 	"github.com/99designs/gqlgen/plugin/federation"
-	"github.com/99designs/gqlgen/plugin/modelgen"
 
+	// "github.com/99designs/gqlgen/plugin/modelgen"
+	"github.com/kauche/kauche-microservices-example/cmd/platform/kauche-gqlgen/internal/gqlgen/plugin/modelgen"
 	"github.com/kauche/kauche-microservices-example/cmd/platform/kauche-gqlgen/internal/gqlgen/plugin/resolvergen"
 )
 
