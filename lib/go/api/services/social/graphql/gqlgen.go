@@ -38,6 +38,7 @@ type Config struct {
 type ResolverRoot interface {
 	Comment() CommentResolver
 	Entity() EntityResolver
+	Product() ProductResolver
 	Query() QueryResolver
 }
 
@@ -83,6 +84,9 @@ type CommentResolver interface {
 }
 type EntityResolver interface {
 	FindProductByID(ctx context.Context, id string) (*Product, error)
+}
+type ProductResolver interface {
+	Comments(ctx context.Context, obj *Product) ([]*Comment, error)
 }
 type QueryResolver interface {
 	Products(ctx context.Context) ([]*Product, error)
@@ -281,6 +285,7 @@ var sources = []*ast.Source{
 ) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
 
 directive @goField(
+	generateParentID: Boolean
 	forceResolver: Boolean
 	name: String
 ) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
@@ -299,13 +304,13 @@ type Query {
 type Product @key(fields: "id") {
   id: ID! @external
 
-  comments: [Comment!]!
+  comments: [Comment!]! @goField(forceResolver: true)
 }
 
 type Comment {
   id: ID!
   text: String!
-  customer: Customer! @goField(forceResolver: true)
+  customer: Customer! @goField(forceResolver: true, generateParentID: true)
 }
 
 type Customer {
@@ -812,7 +817,7 @@ func (ec *executionContext) _Product_comments(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Comments, nil
+		return ec.resolvers.Product().Comments(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -833,8 +838,8 @@ func (ec *executionContext) fieldContext_Product_comments(ctx context.Context, f
 	fc = &graphql.FieldContext{
 		Object:     "Product",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -3230,15 +3235,28 @@ func (ec *executionContext) _Product(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._Product_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "comments":
+			field := field
 
-			out.Values[i] = ec._Product_comments(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Product_comments(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

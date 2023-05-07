@@ -3,9 +3,10 @@
 package graphql
 
 type Comment struct {
-	ID       string    `json:"id"`
-	Text     string    `json:"text"`
-	Customer *Customer `json:"customer"`
+	ID         string    `json:"id"`
+	Text       string    `json:"text"`
+	Customer   *Customer `json:"customer"`
+	CustomerID string
 }
 
 type Customer struct {

@@ -19,7 +19,7 @@ func main() {
 		port = defaultPort
 	}
 
-	resolver := graphql.NewResolver(&commentResolver{}, &entityResolver{}, &queryResolver{})
+	resolver := graphql.NewResolver(&commentResolver{}, &entityResolver{}, &productResolver{}, &queryResolver{})
 	srv := handler.NewDefaultServer(graphql.NewExecutableSchema(graphql.Config{Resolvers: resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
