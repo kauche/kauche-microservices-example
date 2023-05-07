@@ -35,7 +35,8 @@
 			{{- with .Description }}
 				{{.|prefixLines "// "}}
 			{{- end}}
-			{{ $field.GoName }} {{$field.Type | ref}} `{{$field.Tag}}`
+			{{ $field.GoName }} {{$field.Type | ref}} `{{$field.Tag}}` {{if $field.GenerateParentID}}
+                        {{ $field.GoName }}ID string{{end}}
 		{{- end }}
 	}
 

@@ -67,6 +67,8 @@ type Field struct {
 	GoName string
 	Type   types.Type
 	Tag    string
+
+	GenerateParentID bool
 }
 
 type Enum struct {
@@ -372,6 +374,19 @@ func (m *Plugin) generateFields(cfg *config.Config, schemaType *ast.Definition) 
 			Type:        typ,
 			Description: field.Description,
 			Tag:         getStructTagFromField(field),
+		}
+
+		if goField := field.Directives.ForName("goField"); goField != nil {
+			if generateParentID := goField.Arguments.ForName("generateParentID"); generateParentID != nil {
+				v, err := generateParentID.Value.Value(nil)
+				if err != nil {
+					return nil, fmt.Errorf("failed to get the goField.generateParentID directive: %w", err)
+				}
+
+				if value, ok := v.(bool); ok && value {
+					f.GenerateParentID = true
+				}
+			}
 		}
 
 		if m.FieldHook != nil {
