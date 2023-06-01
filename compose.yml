@@ -2,19 +2,30 @@
 version: "3.8"
 
 services:
+  gateway:
+    image: envoyproxy/envoy:v1.24.0
+    ports:
+      - ${GATEWAY_PORT-8000}:8080
+    volumes:
+      - ./app/platform/gateway/envoy/env/local/envoy.yaml:/etc/envoy/envoy.yaml
+      - ./bin/proxy-wasm-google-metadata-identity-token.wasm:/etc/envoy/proxy-wasm-google-metadata-identity-token.wasm
+      - ./bin/proxy-wasm-cloud-logging-trace-context.wasm:/etc/envoy/proxy-wasm-cloud-logging-trace-context.wasm
+      - ./bin/proxy-wasm-http-header-rename.wasm:/etc/envoy/proxy-wasm-http-header-rename.wasm
+    command: /docker-entrypoint.sh envoy -c /etc/envoy/envoy.yaml --log-format '%L%m%d %T.%e %t envoy/%@] [%t][%n]%v' --log-format-escaped
+
   customer-graph:
     image: ghcr.io/apollographql/router:v1.15.1
     ports:
-      - ${CUSTOMER_GRAPH_PORT-8000}:8080
+      - ${CUSTOMER_GRAPH_PORT-8001}:8080
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
     working_dir: /go/src/github.com/kauche/kauche-microservices-example
     command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls --anonymous-telemetry-disabled
 
   commerce-graph:
-    image: golang:1.20.3-bullseye
+    image: golang:1.20.4-bullseye
     ports:
-      - ${COMMERCE_GRAPH_PORT-8001}:9000
+      - ${COMMERCE_GRAPH_PORT-8002}:9000
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -22,9 +33,9 @@ services:
     command: go run ./app/services/commerce-graph
 
   social-graph:
-    image: golang:1.20.3-bullseye
+    image: golang:1.20.4-bullseye
     ports:
-      - ${SOCIAL_GRAPH_PORT-8002}:9001
+      - ${SOCIAL_GRAPH_PORT-8003}:9001
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached

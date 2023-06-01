@@ -1,27 +1,61 @@
-OS := $(shell uname | awk '{print tolower($$0)}')
+OS   := $(shell uname | awk '{print tolower($$0)}')
+ARCH := $(shell case $$(uname -m) in (x86_64) echo amd64 ;; (aarch64) echo arm64 ;; (*) echo $$(uname -m) ;; esac)
 
 BIN_DIR := ./bin
 
 ROVER_VERSION := 0.14.0
+CUE_VERSION   := 0.5.0
 
-GQLGEN := $(abspath $(BIN_DIR)/gqlgen)
-ROVER := $(abspath $(BIN_DIR)/rover)
+ROVER := $(abspath $(BIN_DIR)/rover-$(ROVER_VERSION))
+CUE   := $(abspath $(BIN_DIR)/cue-$(CUE_VERSION))
+
+PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN_VERSION := 0.2.0
+PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION    := 0.1.0
+PROXY_WASM_HTTP_HEADER_RENAME_VERSION             := 0.1.0
+
+PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN := $(abspath $(BIN_DIR)/proxy-wasm-google-metadata-identity-token-$(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN_VERSION).wasm)
+PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT    := $(abspath $(BIN_DIR)/proxy-wasm-cloud-logging-trace-context-$(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION).wasm)
+PROXY_WASM_HTTP_HEADER_RENAME             := $(abspath $(BIN_DIR)/proxy-wasm-http-header-rename-$(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION).wasm)
 
 .PHONY: gen-code
 gen-code: customer-graphql-schema lib-go-commerce-graphql lib-go-social-graphql lib-swift-customer-graphql lib-kotlin-graphql
-
-.PHONY: gqlgen
-gqlgen:
-	@cd ./tools && go build -o $(GQLGEN) github.com/99designs/gqlgen
 
 .PHONY: kauche-gqlgen
 kauche-gqlgen:
 	@CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -extldflags -static" -o ./bin/kauche-gqlgen ./cmd/platform/kauche-gqlgen
 
-.PHONY: rover
-rover:
+rover: $(ROVER)
+$(ROVER):
 	@curl -sSL "https://github.com/apollographql/rover/releases/download/v$(ROVER_VERSION)/rover-v$(ROVER_VERSION)-$(shell uname -m)-unknown-$(OS)-gnu.tar.gz" | tar -C $(BIN_DIR) -xzv dist/rover
 	@mv $(BIN_DIR)/dist/rover $(ROVER) && rm -rf $(BIN_DIR)/dist
+
+cue: $(CUE)
+$(CUE):
+	@curl -sSL "https://github.com/cue-lang/cue/releases/download/v$(CUE_VERSION)/cue_v$(CUE_VERSION)_$(OS)_$(ARCH).tar.gz" | tar -C ./bin -xzv cue
+	@chmod +x $(BIN_DIR)/cue
+	@mv $(BIN_DIR)/cue $(CUE)
+
+proxy-wasm-google-metadata-identity-token.wasm: $(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN)
+$(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN):
+	@curl -sSL "https://github.com/kauche/proxy-wasm-google-metadata-identity-token/releases/download/v${PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN_VERSION}/proxy-wasm-google-metadata-identity-token.wasm" \
+		-o $(BIN_DIR)/proxy-wasm-google-metadata-identity-token.wasm
+	@cp $(BIN_DIR)/proxy-wasm-google-metadata-identity-token.wasm $(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN)
+
+proxy-wasm-cloud-logging-trace-context.wasm: $(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT)
+$(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT):
+	@curl -sSL "https://github.com/kauche/proxy-wasm-cloud-logging-trace-context/releases/download/v${PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION}/proxy-wasm-cloud-logging-trace-context.wasm" \
+		-o $(BIN_DIR)/proxy-wasm-cloud-logging-trace-context.wasm
+	@cp $(BIN_DIR)/proxy-wasm-cloud-logging-trace-context.wasm $(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT)
+
+proxy-wasm-http-header-rename.wasm: $(PROXY_WASM_HTTP_HEADER_RENAME)
+$(PROXY_WASM_HTTP_HEADER_RENAME):
+	@curl -sSL "https://github.com/kauche/proxy-wasm-http-header-rename/releases/download/v${PROXY_WASM_HTTP_HEADER_RENAME_VERSION}/proxy-wasm-http-header-rename.wasm" \
+		-o $(BIN_DIR)/proxy-wasm-http-header-rename.wasm
+	@cp $(BIN_DIR)/proxy-wasm-http-header-rename.wasm $(PROXY_WASM_HTTP_HEADER_RENAME)
+
+.PHONY: gateway
+gateway: $(CUE) proxy-wasm-google-metadata-identity-token.wasm proxy-wasm-cloud-logging-trace-context.wasm proxy-wasm-http-header-rename.wasm
+	@cd ./app/platform/gateway/envoy && $(CUE) -t env=local gen
 
 .PHONY: customer-graphql-schema
 customer-graphql-schema:
