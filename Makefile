@@ -3,11 +3,17 @@ ARCH := $(shell case $$(uname -m) in (x86_64) echo amd64 ;; (aarch64) echo arm64
 
 BIN_DIR := ./bin
 
-ROVER_VERSION := 0.14.0
-CUE_VERSION   := 0.5.0
+ROVER_VERSION              := 0.14.0
+CUE_VERSION                := 0.5.0
+BUF_VERSION                := 1.20.0
+PROTOC_GEN_GO_VERSION      := 1.30.0
+PROTOC_GEN_GO_GRPC_VERSION := 1.3.0
 
-ROVER := $(abspath $(BIN_DIR)/rover-$(ROVER_VERSION))
-CUE   := $(abspath $(BIN_DIR)/cue-$(CUE_VERSION))
+ROVER              := $(abspath $(BIN_DIR)/rover-$(ROVER_VERSION))
+CUE                := $(abspath $(BIN_DIR)/cue-$(CUE_VERSION))
+BUF                := $(abspath $(BIN_DIR)/buf-$(BUF_VERSION))
+PROTOC_GEN_GO      := $(abspath $(BIN_DIR)/protoc-gen-go-$(PROTOC_GEN_GO_VERSION))
+PROTOC_GEN_GO_GRPC := $(abspath $(BIN_DIR)/protoc-gen-go-grpc-$(PROTOC_GEN_GO_GRPC_VERSION))
 
 PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN_VERSION := 0.2.0
 PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION    := 0.1.0
@@ -34,6 +40,18 @@ $(CUE):
 	@curl -sSL "https://github.com/cue-lang/cue/releases/download/v$(CUE_VERSION)/cue_v$(CUE_VERSION)_$(OS)_$(ARCH).tar.gz" | tar -C ./bin -xzv cue
 	@chmod +x $(BIN_DIR)/cue
 	@mv $(BIN_DIR)/cue $(CUE)
+
+buf: $(BUF)
+$(BUF):
+	@curl -sSL "https://github.com/bufbuild/buf/releases/download/v${BUF_VERSION}/buf-$(shell uname -s)-$(shell uname -m)" -o $(BUF) && chmod +x $(BUF)
+
+protoc-gen-go: $(PROTOC_GEN_GO)
+$(PROTOC_GEN_GO):
+	@curl -sSL https://github.com/protocolbuffers/protobuf-go/releases/download/v$(PROTOC_GEN_GO_VERSION)/protoc-gen-go.v$(PROTOC_GEN_GO_VERSION).$(OS).$(ARCH).tar.gz | tar -C $(BIN_DIR) -xzv protoc-gen-go
+
+protoc-gen-go-grpc: $(PROTOC_GEN_GO_GRPC)
+$(PROTOC_GEN_GO_GRPC):
+	@curl -sSL https://github.com/grpc/grpc-go/releases/download/cmd%2Fprotoc-gen-go-grpc%2Fv$(PROTOC_GEN_GO_GRPC_VERSION)/protoc-gen-go-grpc.v$(PROTOC_GEN_GO_GRPC_VERSION).$(OS).$(ARCH).tar.gz | tar -C $(BIN_DIR) -xzv ./protoc-gen-go-grpc
 
 proxy-wasm-google-metadata-identity-token.wasm: $(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN)
 $(PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN):
