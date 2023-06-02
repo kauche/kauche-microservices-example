@@ -22,6 +22,14 @@ services:
     working_dir: /go/src/github.com/kauche/kauche-microservices-example
     command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls --anonymous-telemetry-disabled
 
+  commerce:
+    image: golang:1.20.4-bullseye
+    volumes:
+      - .:/go/src/github.com/kauche/kauche-microservices-example:cached
+      - go-pkg-mod:/go/pkg/mod:cached
+    working_dir: /go/src/github.com/kauche/kauche-microservices-example
+    command: go run ./app/services/commerce
+
   commerce-graph:
     image: golang:1.20.4-bullseye
     ports:
@@ -31,6 +39,8 @@ services:
       - go-pkg-mod:/go/pkg/mod:cached
     working_dir: /go/src/github.com/kauche/kauche-microservices-example
     command: go run ./app/services/commerce-graph
+    environment:
+      COMMERCE_GRPC_ADDR: commerce:8000
 
   social-graph:
     image: golang:1.20.4-bullseye

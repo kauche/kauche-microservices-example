@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package example.kauche.com.commerce.v1;
+
+option go_package = "github.com/kauche/kauche-microservices-example/lib/go/api/services/commerce/proto/v1;commerce";
+
+service CommerceServer {
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  rpc GetProduct(GetProductRequest) returns (Product);
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message ListProductsRequest {}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+}

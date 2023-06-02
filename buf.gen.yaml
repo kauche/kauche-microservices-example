@@ -1,0 +1,14 @@
+---
+version: v1
+
+plugins:
+
+  - name: go
+    path: ./bin/protoc-gen-go
+    out: ./lib/go
+    opt: paths=source_relative
+
+  - name: go-grpc
+    path: ./bin/protoc-gen-go-grpc
+    out: ./lib/go
+    opt: paths=source_relative,require_unimplemented_servers=false
