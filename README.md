@@ -9,12 +9,11 @@ Let's explore the KAUCHE like microservices consist of Go, gRPC, GraphQL and Env
 Start servers with the command below:
 
 ```sh
-$ docker compose up --detach
+$ make up
 ```
 
 And then, you can call KAUCHE like microservices like below:
 
 ```sh
 $ curl -s -H "Host: api.kauche.localhost" -H "content-type: application/json" -d '{"query": "query { products{ id name comments{ id text customer{ id name } } } }"}' localhost:8000/query | jq .
-
 ```

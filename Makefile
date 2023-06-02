@@ -12,8 +12,8 @@ PROTOC_GEN_GO_GRPC_VERSION := 1.3.0
 ROVER              := $(abspath $(BIN_DIR)/rover-$(ROVER_VERSION))
 CUE                := $(abspath $(BIN_DIR)/cue-$(CUE_VERSION))
 BUF                := $(abspath $(BIN_DIR)/buf-$(BUF_VERSION))
-PROTOC_GEN_GO      := $(abspath $(BIN_DIR)/protoc-gen-go-$(PROTOC_GEN_GO_VERSION))
-PROTOC_GEN_GO_GRPC := $(abspath $(BIN_DIR)/protoc-gen-go-grpc-$(PROTOC_GEN_GO_GRPC_VERSION))
+PROTOC_GEN_GO      := $(abspath $(BIN_DIR)/protoc-gen-go)
+PROTOC_GEN_GO_GRPC := $(abspath $(BIN_DIR)/protoc-gen-go-grpc)
 
 PROXY_WASM_GOOGLE_METADATA_IDENTITY_TOKEN_VERSION := 0.2.0
 PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION    := 0.1.0
@@ -107,3 +107,12 @@ lib-kotlin-graphql:
 	@mkdir -p ./lib/kotlin/com/kauche/api/platform
 	@./gradlew :api:generateApolloSources
 	@mv ./api/build/generated/source/apollo/customer-graphql/com/kauche/api/platform/customer ./lib/kotlin/com/kauche/api/platform/customer
+
+.PHONY: gen-proto
+gen-proto: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_GRPC)
+	@$(BUF) generate \
+		--path ./api/services/commerce/proto/v1/
+
+.PHONY: up
+up: gateway
+	docker compose up --detach
