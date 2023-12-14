@@ -39,14 +39,6 @@ func (r *productResolver) Comments(ctx context.Context, obj *Product) ([]*Commen
 	return r.resolver.Comments(ctx, obj)
 }
 
-func (r *queryResolver) Products(ctx context.Context) ([]*Product, error) {
-	return r.resolver.Products(ctx)
-}
-
-func (r *queryResolver) Product(ctx context.Context, id string) (*Product, error) {
-	return r.resolver.Product(ctx, id)
-}
-
 func (r *queryResolver) Customer(ctx context.Context, id string) (*Customer, error) {
 	return r.resolver.Customer(ctx, id)
 }

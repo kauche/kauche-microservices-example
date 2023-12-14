@@ -15,8 +15,6 @@ directive @goTag(
 ) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 type Query {
-  products: [Product!]!
-  product(id: ID!): Product
   customer(id: ID!): Customer
 }
 
