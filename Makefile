@@ -26,7 +26,7 @@ PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT    := $(abspath $(BIN_DIR)/proxy-wasm-clo
 PROXY_WASM_HTTP_HEADER_RENAME             := $(abspath $(BIN_DIR)/proxy-wasm-http-header-rename-$(PROXY_WASM_CLOUD_LOGGING_TRACE_CONTEXT_VERSION).wasm)
 
 .PHONY: gen-code
-gen-code: customer-graphql-schema lib-go-commerce-graphql lib-go-social-graphql lib-swift-customer-graphql lib-kotlin-graphql
+gen-code: customer-graphql-schema lib-go-commerce-graphql lib-go-social-graphql lib-swift-customer-graphql lib-kotlin-customer-graphql
 
 .PHONY: kauche-gqlgen
 kauche-gqlgen:
@@ -108,7 +108,7 @@ lib-swift-customer-graphql:
 		--operationIdsPath=./lib/swift/api/platform/customer/graphql/operationIDs.json \
 		--mergeInFieldsFromFragmentSpreads ./lib/swift/api/platform/customer/graphql/API.swift
 
-.PHONY: lib-kotlin-graphql
+.PHONY: lib-kotlin-customer-graphql
 lib-kotlin-graphql:
 	@rm -rf ./lib/kotlin/com
 	@mkdir -p ./lib/kotlin/com/kauche/api/platform
