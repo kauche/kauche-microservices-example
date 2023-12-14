@@ -1,6 +1,6 @@
 module github.com/kauche/kauche-microservices-example
 
-go 1.20
+go 1.21
 
 require (
 	github.com/110y/run v1.0.2

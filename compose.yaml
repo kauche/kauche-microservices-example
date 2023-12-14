@@ -3,7 +3,7 @@ version: "3.8"
 
 services:
   gateway:
-    image: envoyproxy/envoy:v1.24.0
+    image: envoyproxy/envoy:v1.28.0
     ports:
       - ${GATEWAY_PORT-8000}:8080
     volumes:
@@ -14,14 +14,14 @@ services:
     command: /docker-entrypoint.sh envoy -c /etc/envoy/envoy.yaml --log-format '%L%m%d %T.%e %t envoy/%@] [%t][%n]%v' --log-format-escaped
 
   customer-graph:
-    image: ghcr.io/apollographql/router:v1.15.1
+    image: ghcr.io/apollographql/router:v1.35.0
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
     working_dir: /go/src/github.com/kauche/kauche-microservices-example
     command: --config ./app/platform/customer-graph/router.yaml --supergraph ./api/platform/customer/graphql/schema.graphqls --anonymous-telemetry-disabled
 
   commerce:
-    image: golang:1.20.4-bullseye
+    image: golang:1.21.5-bookworm
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -29,7 +29,7 @@ services:
     command: go run ./app/services/commerce
 
   commerce-graph:
-    image: golang:1.20.4-bullseye
+    image: golang:1.21.5-bookworm
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
@@ -39,7 +39,7 @@ services:
       COMMERCE_GRPC_ADDR: commerce:8000
 
   social-graph:
-    image: golang:1.20.4-bullseye
+    image: golang:1.21.5-bookworm
     volumes:
       - .:/go/src/github.com/kauche/kauche-microservices-example:cached
       - go-pkg-mod:/go/pkg/mod:cached
