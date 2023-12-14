@@ -3,7 +3,7 @@ ARCH := $(shell case $$(uname -m) in (x86_64) echo amd64 ;; (aarch64) echo arm64
 
 BIN_DIR := ./bin
 
-ROVER_VERSION              := 0.14.0
+ROVER_VERSION              := 0.21.0
 APOLLO_IOS_CLI_VERSION     := 1.7.1
 CUE_VERSION                := 0.5.0
 BUF_VERSION                := 1.20.0
