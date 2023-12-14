@@ -4,12 +4,14 @@ ARCH := $(shell case $$(uname -m) in (x86_64) echo amd64 ;; (aarch64) echo arm64
 BIN_DIR := ./bin
 
 ROVER_VERSION              := 0.14.0
+APOLLO_IOS_CLI_VERSION     := 1.7.1
 CUE_VERSION                := 0.5.0
 BUF_VERSION                := 1.20.0
 PROTOC_GEN_GO_VERSION      := 1.30.0
 PROTOC_GEN_GO_GRPC_VERSION := 1.3.0
 
 ROVER              := $(abspath $(BIN_DIR)/rover-$(ROVER_VERSION))
+APOLLO_IOS_CLI     := $(abspath $(BIN_DIR)/apollo-ios-cli-$(APOLLO_IOS_CLI_VERSION))
 CUE                := $(abspath $(BIN_DIR)/cue-$(CUE_VERSION))
 BUF                := $(abspath $(BIN_DIR)/buf-$(BUF_VERSION))
 PROTOC_GEN_GO      := $(abspath $(BIN_DIR)/protoc-gen-go)
@@ -34,6 +36,11 @@ rover: $(ROVER)
 $(ROVER):
 	@curl -sSL "https://github.com/apollographql/rover/releases/download/v$(ROVER_VERSION)/rover-v$(ROVER_VERSION)-$(shell uname -m)-unknown-$(OS)-gnu.tar.gz" | tar -C $(BIN_DIR) -xzv dist/rover
 	@mv $(BIN_DIR)/dist/rover $(ROVER) && rm -rf $(BIN_DIR)/dist
+
+apollo-ios-cli: $(APOLLO_IOS_CLI)
+$(APOLLO_IOS_CLI):
+	curl -sSL "https://github.com/apollographql/apollo-ios/releases/download/$(APOLLO_IOS_CLI_VERSION)/apollo-ios-cli.tar.gz" | tar -C ./bin -xzv apollo-ios-cli
+	chmod +x ./bin/apollo-ios-cli
 
 cue: $(CUE)
 $(CUE):
